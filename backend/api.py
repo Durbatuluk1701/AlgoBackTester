@@ -1,15 +1,21 @@
-from fastapi import FastAPI
+from fastapi import HTTPException
 import pandas as pd
 import datetime
 import os
 from data_gather import gather_data
 
-app = FastAPI()
+def df_clean(ticker, start, end):
+    df = retrieve_csv(ticker)        
+    df = filter_datetime(df, start, end)
+    df.columns = map(str.lower, df.columns)
+    df.dropna(inplace=True)
+    return df
 
 def retrieve_csv(ticker):
-    if (os.path.isfile(f"_data/{ticker}")):
+    if (os.path.isfile(f"_data/{ticker}.csv")):
         return pd.read_csv(f"_data/{ticker}.csv")
-    gather_data(ticker)
+    if (gather_data(ticker) == None):
+        raise HTTPException(400, f"Invalid Ticker")
     return pd.read_csv(f"_data/{ticker}.csv")
 
 def filter_datetime(df, start, end):
@@ -20,38 +26,17 @@ def filter_datetime(df, start, end):
     df = df.loc[df["Date"] < endDate]
     return df
 
-@app.get("/{ticker}/open")
-def read_root(ticker : str, start : str = "1900-01-01", end : str = datetime.date.today().isoformat()):
-    data = retrieve_csv(ticker)
-    data = filter_datetime(data, start, end)
-    return data["Open"].to_list()
+def get_field(ticker : str, field : str, start : str, end : str):
+    data = df_clean(ticker, start, end)
+    return data[field].to_list()
 
-@app.get("/{ticker}/close")
-def read_root(ticker : str, start : str = "1900-01-01", end : str = datetime.date.today().isoformat()):
-    data = retrieve_csv(ticker)
-    data = filter_datetime(data, start, end)
-    return data["Close"].to_list()
-
-@app.get("/{ticker}/low")
-def read_root(ticker : str, start : str = "1900-01-01", end : str = datetime.date.today().isoformat()):
-    data = retrieve_csv(ticker)
-    data = filter_datetime(data, start, end)
-    return data["Low"].to_list()
-
-@app.get("/{ticker}/high")
-def read_root(ticker : str, start : str = "1900-01-01", end : str = datetime.date.today().isoformat()):
-    data = retrieve_csv(ticker)
-    data = filter_datetime(data, start, end)
-    return data["High"].to_list()
-
-@app.get("/{ticker}/Volume")
-def read_root(ticker : str, start : str = "1900-01-01", end : str = datetime.date.today().isoformat()):
-    data = retrieve_csv(ticker)
-    data = filter_datetime(data, start, end)
-    return data["Volume"].to_list()
-
-@app.get("/{ticker}/all")
-def read_root(ticker : str, start : str = "1900-01-01", end : str = datetime.date.today().isoformat()):
-    data = retrieve_csv(ticker)
-    data = filter_datetime(data, start, end)
+def get_all(ticker : str, start : str, end : str):
+    data = df_clean(ticker, start, end)
     return data.to_json(double_precision=2, orient="records")
+
+def get_average(ticker, field, start, end, width):
+    data = df_clean(ticker,start,end)
+    data = data[field].to_frame()
+    data[field] = data[field].rolling(width).mean()
+    data.dropna(inplace=True)
+    return data[field].to_list()
