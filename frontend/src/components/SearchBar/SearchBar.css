@@ -1,0 +1,47 @@
+.container-home {
+  display: flex;
+  height: 200px;
+  width: 400px;
+  background-color: #fafafa;
+  align-items: center;
+  margin: auto;
+  margin-top: -7.5vh;
+  border-radius: 20px;
+}
+
+.container-data {
+  display: flex;
+  height: 100px;
+  width: 600px;
+  background-color: #fafafa;
+  align-items: center;
+  margin: auto;
+  margin-top: -35vh;
+  border-radius: 20px;
+}
+
+.form {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.search-bar {
+  border-radius: 20px;
+  padding-left: 10px;
+  height: 30px;
+}
+
+.submit {
+  margin-left: 10px;
+  border-radius: 20px;
+  padding: 5px 15px;
+  background: #ccc;
+  border: 0 none;
+  cursor: pointer;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.submit:hover {
+  background-color: lightgreen;
+}
