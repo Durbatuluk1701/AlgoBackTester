@@ -35,6 +35,7 @@ export const SearchBar = () => {
 
   return (
     <div className={`container-${isCallSuccess ? "data" : "home"}`}>
+      <div className={`title-${isCallSuccess ? "data" : "home"}`}>PHOEBUS</div>
       <form className="form" onSubmit={handleSubmit}>
         <input
           className="search-bar"
