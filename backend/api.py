@@ -3,6 +3,7 @@ import pandas as pd
 import datetime
 import os
 from data_gather import gather_data
+import predict
 
 def df_clean(ticker, start, end):
     df = retrieve_csv(ticker)        
@@ -24,6 +25,7 @@ def filter_datetime(df, start, end):
     df["Date"] = df["Date"].apply(pd.to_datetime)
     df = df.loc[df["Date"] > startDate]
     df = df.loc[df["Date"] < endDate]
+    df.reset_index(inplace=True)
     return df
 
 def get_field(ticker : str, field : str, start : str, end : str):
@@ -40,3 +42,11 @@ def get_average(ticker, field, start, end, width):
     data[field] = data[field].rolling(width).mean()
     data.dropna(inplace=True)
     return data[field].to_list()
+
+def get_predict_linear(ticker : str, start : str, end : str):
+    data = df_clean(ticker, start, end)
+    return predict.predict_linear(data, "open")
+
+def get_predict_poly(ticker : str, start : str, end : str, deg : int):
+    data = df_clean(ticker, start, end)
+    return predict.predict_poly(data, "open", deg)
