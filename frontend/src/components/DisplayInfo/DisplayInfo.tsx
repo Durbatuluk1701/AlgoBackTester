@@ -97,7 +97,7 @@ export const DisplayInfo = () => {
     ]
 
     return (ticker == null) ? <NullTicker /> : (
-        <div style={{ display: "flex", height: "80%", width: "auto", flexDirection: "column" }}>
+        <div style={{ display: "flex", height: "80%", width: "100%", flexDirection: "column" }}>
             <h2 style={{ margin: "0 auto" }}>{ticker} Historical Data</h2>
             <div style={{ display: "flex", flexDirection: "row" }}>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
