@@ -1,5 +1,6 @@
 import "./SearchBar.css";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 export const SearchBar = () => {
   /* Ticker Input */
@@ -22,16 +23,7 @@ export const SearchBar = () => {
     event.preventDefault();
   };
 
-  /* Conditional Styling for API Calls */
-  const [isCallSuccess, setIsCallSuccess] = useState(false);
-
-  const handleAPICall = () => {
-    setIsCallSuccess(!isCallSuccess);
-  };
-
-  useEffect(() => {
-    console.log(isCallSuccess);
-  }, [isCallSuccess]);
+  let isCallSuccess = true
 
   return (
     <div className={`container-${isCallSuccess ? "data" : "home"}`}>
@@ -44,12 +36,10 @@ export const SearchBar = () => {
           value={value.ticker}
           onChange={handleTickerEnter}
         />
-        <input
+        <Link
+          to={`/search?ticker=${value.ticker}`}
           className="submit"
-          type="submit"
-          value="Retrieve Data"
-          onClick={handleAPICall}
-        />
+        >Search</Link>
       </form>
     </div>
   );
