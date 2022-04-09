@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { DataGrid, GridColDef } from "@mui/x-data-grid"
 
 interface ApiData {
     index: number;
@@ -40,17 +41,29 @@ export const DisplayInfo = () => {
         return () => {
             abortController.abort();
         };
-    }, [ticker]);
+    }, [ticker, end, start]);
 
-
-    console.log(typeof (displayData))
+    const columns: GridColDef[] = [
+        {
+            field: 'date', headerName: 'Date', width: 250, valueFormatter: (val) => {
+                let d = new Date()
+                let [year, month, day] = val.value.split("-")
+                d.setUTCFullYear(year, month - 1, day)
+                return d.toDateString()
+            }
+        },
+        { field: 'open',headerName: 'Open',width: 150}, 
+        { field: 'close', headerName: "Close", width: 150 },
+        { field: 'high', headerName: "High", width: 150 },
+        { field: 'low', headerName: "Low", width: 150 },
+        { field: 'volume', headerName: "Volume", width: 150 },
+        ]
 
     return (
-        <>
-            {
-                displayData.map((record) => {
-                    return (<p key={record.index}>{record.date}, {record.open}, {record.close}</p>)
-                })
-            }
-        </>);
+        <div style={{ display: "flex", height: "80%", width: "auto", flexDirection: "column" }}>
+            <h2 style={{margin: "0 auto"}}>{ticker} Historical Data</h2>
+            <DataGrid columns={columns} rows={displayData} getRowId={(row) => {
+                return row.index
+            }} />
+        </div>);
 }

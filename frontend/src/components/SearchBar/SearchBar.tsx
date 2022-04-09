@@ -9,7 +9,6 @@ export const SearchBar = () => {
   });
 
   const handleTickerEnter = (event: React.ChangeEvent<HTMLInputElement>) => {
-    event.persist();
     setValue(value => ({
       ticker: event.target.value
     }));

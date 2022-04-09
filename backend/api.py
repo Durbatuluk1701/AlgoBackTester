@@ -9,6 +9,7 @@ def df_clean(ticker, start, end):
     df = retrieve_csv(ticker)        
     df = filter_datetime(df, start, end)
     df.columns = map(str.lower, df.columns)
+    df["date"] = df["date"].astype("string")
     df.dropna(inplace=True)
     return df
 
@@ -34,7 +35,7 @@ def get_field(ticker : str, field : str, start : str, end : str):
 
 def get_all(ticker : str, start : str, end : str):
     data = df_clean(ticker, start, end)
-    return data.to_json(double_precision=2, orient="records")
+    return data.to_json(double_precision=4, orient="records")
 
 def get_average(ticker, field, start, end, width):
     data = df_clean(ticker,start,end)

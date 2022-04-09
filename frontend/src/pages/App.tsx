@@ -10,12 +10,12 @@ const TopBar = () => {
 
 export const App = () => {
   return (
-    <div className="App">
-      <div className="mast">Jet Semrick | Will Thomas | HackKU 2022</div>
+    <div className="App" style={{ height: "100%"}}>
       <Routes>
         <Route path="/" element={<TopBar />} />
         <Route path="/search" element={<DisplayInfo />} />
       </Routes>
+      <div className="mast">Jet Semrick | Will Thomas | HackKU 2022</div>
     </div>
   );
 }
