@@ -1,12 +1,23 @@
 from fastapi import FastAPI, HTTPException
+import fastapi
 import api
 import datetime
+from fastapi.middleware.cors import CORSMiddleware
 
 validFields = ["open", "close", "high", "low", "volume"]
 firstIso = "1900-01-01"
 todayIso = datetime.date.today().isoformat()
 
 app = FastAPI()
+
+origins = ['http://localhost','http://localhost:3000']
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"])
 
 @app.get("/{ticker}/{field}")
 def read(ticker : str, field : str, start : str = firstIso, end : str = todayIso):
