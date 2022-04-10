@@ -2,3 +2,6 @@ numpy
 matplotlib
 uvicorn
 fastapi
+pandas
+scipy
+sklearn

@@ -1,2 +1,2 @@
-runtime: python310
-entrypoint: python .\main.py
+runtime: python
+entrypoint: python3 main.py
