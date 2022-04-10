@@ -13,14 +13,16 @@
   display: flex;
   height: 100px;
   width: 600px;
-  background-color: #fafafa;
+  background-color: #f0f8ff;
   align-items: center;
   margin: auto;
+  margin-top: -2vh;
   border-radius: 20px;
+  box-shadow: 10px 5px 5px lightgrey;
 }
 
 .title-home {
-  color: #80e4a5;
+  color: #7cb896;
   text-align: center;
   margin-left: 110px;
   margin-top: -110px;
@@ -54,8 +56,23 @@
   cursor: pointer;
   -webkit-border-radius: 5px;
   border-radius: 5px;
+  font-family: Arial, Helvetica, sans-serif;
+  text-decoration: none;
+}
+
+.submit:link {
+  color: black;
+}
+
+.submit:active {
+  color: black;
+}
+
+.submit:visited {
+  color: black;
 }
 
 .submit:hover {
-  background-color: lightgreen;
+  background-color: #7cb896;
+  opacity: 75%;
 }

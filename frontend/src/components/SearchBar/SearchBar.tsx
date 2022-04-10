@@ -1,6 +1,6 @@
 import "./SearchBar.css";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export const SearchBar = () => {
   /* Ticker Input */
@@ -12,17 +12,22 @@ export const SearchBar = () => {
     setValue(value => ({
       ticker: event.target.value
     }));
-    console.log(value.ticker);
   };
 
   /* Submit Button */
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     /* Make API Call */
-    console.log(value.ticker);
     event.preventDefault();
   };
 
-  let isCallSuccess = true
+  let isCallSuccess = true;
+  let navigate = useNavigate();
+
+  const handleKey = (event: any) => {
+    if (event.key === "Enter") {
+      navigate(`/search?ticker=${value.ticker}`);
+    }
+  };
 
   return (
     <div className={`container-${isCallSuccess ? "data" : "home"}`}>
@@ -34,11 +39,11 @@ export const SearchBar = () => {
           placeholder="Enter Ticker"
           value={value.ticker}
           onChange={handleTickerEnter}
+          onKeyPress={handleKey}
         />
-        <Link
-          to={`/search?ticker=${value.ticker}`}
-          className="submit"
-        >Search</Link>
+        <Link to={`/search?ticker=${value.ticker}`} className="submit">
+          Search
+        </Link>
       </form>
     </div>
   );
